@@ -1,0 +1,63 @@
+const fs = require('fs');
+const css = fs.readFileSync('styles.css', 'utf8');
+
+test('CSS file is valid', () => {
+  expect(css).toBeDefined();
+  expect(css.length).toBeGreaterThan(0);
+});
+
+test('CSS file does not contain errors', () => {
+  // Vérifiez si le fichier CSS ne contient pas d'erreurs spécifiques
+  expect(css).not.toMatch(/error/);
+});
+
+test('CSS file follows naming conventions', () => {
+  // Vérifiez si le fichier CSS suit les conventions de nommage
+  expect(css).toMatch(/\.navigation/);
+  expect(css).toMatch(/\.logo/);
+  expect(css).toMatch(/\.search-box/);
+  // Ajoutez d'autres tests de convention de nommage au besoin
+});
+test('CSS file is valid', () => {
+  expect(css).toBeDefined();
+  expect(css.length).toBeGreaterThan(0);
+});
+
+test('CSS file does not contain errors', () => {
+  // Vérifiez si le fichier CSS ne contient pas d'erreurs spécifiques
+  expect(css).not.toMatch(/error/);
+});
+
+test('CSS file follows naming conventions', () => {
+  // Vérifiez si le fichier CSS suit les conventions de nommage
+  expect(css).toMatch(/#main/);
+  expect(css).toMatch(/\.main-text/);
+  expect(css).toMatch(/\.main-img/);
+  // Ajoutez d'autres tests de convention de nommage au besoin
+});// Importez le module `jest-css-modules` pour tester les fichiers CSS
+import 'jest-css-modules';
+
+// Importez les styles CSS que vous souhaitez tester
+import styles from './styles.css'; // Assurez-vous de remplacer './styles.css' par le chemin correct de votre fichier CSS
+
+// Décrivez vos tests
+describe('Styles CSS', () => {
+  // Testez chaque sélecteur CSS
+  test('les styles pour .footer-container sont corrects', () => {
+    // Vérifiez que les styles CSS sont corrects pour .footer-container
+    expect(styles.footerContainer).toEqual({
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gridGap: '40px',
+    });
+  });
+
+  test('les styles pour .product-grid-3 sont corrects', () => {
+    // Vérifiez que les styles CSS sont corrects pour .product-grid-3
+    expect(styles.productGrid3).toEqual({
+      gridTemplateColumns: '1fr 1fr',
+    });
+  });
+
+  // Ajoutez d'autres tests pour chaque sélecteur CSS que vous souhaitez tester
+});
