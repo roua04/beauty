@@ -1,0 +1,41 @@
+const fs = require('fs');
+const path = require('path');
+const { JSDOM } = require('jsdom');
+
+describe('HTML Page', () => {
+    let dom;
+    let document;
+
+    // Avant chaque test, charger le fichier HTML et créer un DOM
+    beforeEach(() => {
+        const html = fs.readFileSync(path.resolve(__dirname, './your_html_file.html'), 'utf-8');
+        dom = new JSDOM(html, { runScripts: 'dangerously' });
+        document = dom.window.document;
+    });
+
+    // Test pour vérifier le titre de la page
+    test('should have correct title', () => {
+        expect(document.title).toBe('BEAUTY BY ROUA');
+    });
+
+    // Test pour vérifier la présence du logo
+    test('should have logo', () => {
+        const logo = document.querySelector('.logo img');
+        expect(logo).toBeTruthy();
+        expect(logo.src).toBe('http://yourdomain.com/image/RS1.jpg'); // Remplacer par le chemin d'accès réel de votre image
+    });
+
+    // Test pour vérifier la présence du champ de recherche
+    test('should have search box', () => {
+        const searchBox = document.querySelector('.search-box');
+        expect(searchBox).toBeTruthy();
+    });
+
+    // Test pour vérifier la présence du pied de page
+    test('should have footer', () => {
+        const footer = document.querySelector('footer');
+        expect(footer).toBeTruthy();
+    });
+
+    // Ajoutez d'autres tests pour vérifier la présence d'autres éléments selon vos besoins
+});
