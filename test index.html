@@ -1,0 +1,471 @@
+// Import de la fonction à tester
+// Par exemple, si vous avez une fonction qui vérifie si les liens de navigation fonctionnent correctement, vous pouvez l'importer ici.
+// const { checkNavigationLinks } = require('./votre-fichier-js');
+
+// Exemple de test pour vérifier si les liens de navigation fonctionnent correctement
+test('Vérifie si les liens de navigation fonctionnent correctement', () => {
+    // Simulation de la structure HTML de la barre de navigation
+    document.body.innerHTML = `
+        <nav class="navigation">
+            <a href="index.html" class="logo">
+                <img alt="" src="image/RS1.jpg">
+            </a>
+            <form class="search-box">
+                <input type="text" placeholder="Search Product Here " required/>
+                <button>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+            <div class="nav-btns">
+                <a href="#" class="nav-user">
+                    <i class="fa-regular fa-user"></i>
+                </a>
+                <a href ="#" class ="nav-cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </a>
+            </div>
+        </nav>
+    `;
+
+    // Sélection de tous les éléments de la barre de navigation
+    const logoLink = document.querySelector('.logo');
+    const searchForm = document.querySelector('.search-box');
+    const userLink = document.querySelector('.nav-user');
+    const cartLink = document.querySelector('.nav-cart');
+
+    // Test de clic sur le logo
+    logoLink.click();
+    expect(window.location.href).toBe('index.html');
+
+    // Test de soumission du formulaire de recherche
+    const searchInput = searchForm.querySelector('input[type="text"]');
+    searchInput.value = 'test';
+    searchForm.submit(); // Soumission du formulaire de recherche
+    expect(searchInput.value).toBe('test');
+
+    // Test de clic sur le lien de l'utilisateur
+    userLink.click();
+    // Ajoutez d'autres assertions si nécessaire
+
+    // Test de clic sur le lien du panier
+    cartLink.click();
+    // Ajoutez d'autres assertions si nécessaire
+});
+// Exemple de test pour vérifier si la section principale est correctement affichée
+test('Vérifie si la section principale est correctement affichée', () => {
+    // Simulation de la structure HTML de la section principale
+    document.body.innerHTML = `
+        <section id="main">
+            <div class="main-text">
+                <span> New Collection </span>
+                <h1> Ecommerce <font>Beauty Product's </font> BY ROUA SAKLI </h1>
+                <p> Welcome  To Our  New Beauty </p>
+                <a href="#"> Shop Now </a>
+            </div>
+            <div class="main-img">
+                <img  alt ="main img "src="image/RS2.jpg">
+            </div>
+        </section>
+    `;
+    
+    // Sélection de la section principale
+    const mainSection = document.getElementById('main');
+
+    // Vérification si la section principale est présente dans le DOM
+    expect(mainSection).toBeTruthy();
+
+    // Vérification du contenu textuel de la section principale
+    const mainText = mainSection.querySelector('.main-text');
+    expect(mainText.textContent).toContain('New Collection');
+    expect(mainText.textContent).toContain('Ecommerce Beauty Product\'s BY ROUA SAKLI');
+    expect(mainText.textContent).toContain('Welcome To Our New Beauty');
+
+    // Vérification du lien "Shop Now"
+    const shopNowLink = mainText.querySelector('a[href="#"]');
+    expect(shopNowLink).toBeTruthy();
+    expect(shopNowLink.textContent).toBe('Shop Now');
+
+    // Vérification de l'image principale
+    const mainImage = mainSection.querySelector('.main-img img');
+    expect(mainImage).toBeTruthy();
+    expect(mainImage.getAttribute('alt')).toBe('main img');
+    expect(mainImage.getAttribute('src')).toBe('image/RS2.jpg');
+});
+// Exemple de test pour vérifier si la grille de produits est correctement affichée
+test('Vérifie si la grille de produits est correctement affichée', () => {
+    // Simulation de la structure HTML de la grille de produits
+    document.body.innerHTML = `
+        <section class="product-grid-3">
+            <div class="product-grid-box product-grid-box1">
+                <img src="image/s1.jpg"/>
+                <div class="product-grid-text">
+                    <strong>NATUREAL GREEN LOTION</strong>
+                    <span>Skin Care Product</span>
+                    <a href="#">shop now</a> 
+                </div>
+            </div>
+            <div class="product-grid-box product-grid-box2">
+                <img src="image/s2.jpg"/>
+                <div class="product-grid-text">
+                    <strong>3 in 1 Novage Lotion's</strong>
+                    <span>Skin Care Product</span>
+                    <a href="#">shop now</a> 
+                </div>
+            </div>
+            <div class="product-grid-box product-grid-box3">
+                <img src="image/s3.jpg"/>
+                <div class="product-grid-text">
+                    <strong>GOLd FaceWash & Perfume</strong>
+                    <span>Skin Care Product</span>
+                    <a href="#">shop now</a> 
+                </div>
+            </div>
+        </section>
+    `;
+    
+    // Sélection de la grille de produits
+    const productGrid = document.querySelector('.product-grid-3');
+
+    // Vérification si la grille de produits est présente dans le DOM
+    expect(productGrid).toBeTruthy();
+
+    // Vérification des boîtes de produits individuelles
+    const productBoxes = productGrid.querySelectorAll('.product-grid-box');
+    expect(productBoxes.length).toBe(3);
+
+    // Vérification des images de produit
+    productBoxes.forEach(box => {
+        const productImage = box.querySelector('img');
+        expect(productImage).toBeTruthy();
+        expect(productImage.tagName).toBe('IMG');
+        expect(productImage.getAttribute('src')).toContain('image/');
+    });
+
+    // Vérification des textes de produit
+    productBoxes.forEach(box => {
+        const productText = box.querySelector('.product-grid-text');
+        expect(productText).toBeTruthy();
+        expect(productText.textContent).toContain('Skin Care Product');
+        expect(productText.textContent).toContain('shop now');
+    });
+});
+// Exemple de test pour vérifier si la section des nouveaux produits est correctement affichée
+test('Vérifie si la section des nouveaux produits est correctement affichée', () => {
+    // Simulation de la structure HTML de la section des nouveaux produits
+    document.body.innerHTML = `
+        <section id="new_products">
+            <div class="new-p-heading">
+                <h3> New Product's</h3>
+                <ul>
+                    <li class="filter-list active" data-filter="all">All</li>
+                    <li class="filter-list" data-filter="skin">Skin</li>
+                    <li class="filter-list" data-filter="mackup">Mackup</li>
+                    <li class="filter-list" data-filter="Nail">Nail</li>
+                    <li class="filter-list" data-filter="hair">Hair</li>
+                </ul>
+            </div>
+            <div class="new-product-container">
+                <div class="new-product-box-wrapper mackup">
+                    <div class="new-product-box">
+                        <a href="#" class="new-product-img">
+                            <span>mackup</span>
+                            <img src="image/n1.jfif" />
+                        </a>
+                        <div class="new-product-text">
+                            <a href="#" class="new-product-title">MASQUARA</a>
+                            <span>5dt</span>
+                            <a href="#" class="new-p-cart-btn">Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Autres boîtes de produits similaires -->
+            </div>
+        </section>
+    `;
+
+    // Sélection de la section des nouveaux produits
+    const newProductsSection = document.getElementById('new_products');
+
+    // Vérification si la section des nouveaux produits est présente dans le DOM
+    expect(newProductsSection).toBeTruthy();
+
+    // Vérification du titre de la section
+    const sectionHeading = newProductsSection.querySelector('.new-p-heading h3');
+    expect(sectionHeading).toBeTruthy();
+    expect(sectionHeading.textContent).toContain("New Product's");
+
+    // Vérification des filtres
+    const filterList = newProductsSection.querySelectorAll('.filter-list');
+    expect(filterList.length).toBe(5);
+    filterList.forEach(filter => {
+        expect(filter).toBeTruthy();
+    });
+
+    // Vérification des boîtes de produits individuelles
+    const productBoxes = newProductsSection.querySelectorAll('.new-product-box');
+    expect(productBoxes.length).toBeGreaterThan(0);
+    productBoxes.forEach(box => {
+        const productImage = box.querySelector('.new-product-img img');
+        expect(productImage).toBeTruthy();
+        expect(productImage.tagName).toBe('IMG');
+        expect(productImage.getAttribute('src')).toContain('image/');
+        
+        const productText = box.querySelector('.new-product-text');
+        expect(productText).toBeTruthy();
+        expect(productText.textContent).toContain('dt');
+        expect(productText.querySelector('.new-p-cart-btn')).toBeTruthy();
+    });
+});
+// Exemple de test pour vérifier si les sections "product-grid-half" et "popular-product" sont correctement affichées
+test('Vérifie si les sections "product-grid-half" et "popular-product" sont correctement affichées', () => {
+    // Simulation de la structure HTML des sections
+    document.body.innerHTML = `
+        <section class="product-grid-half">
+            <!-- Structure de la section "product-grid-half" -->
+        </section>
+
+        <section id="popular-product">
+            <!-- Structure de la section "popular-product" -->
+        </section>
+    `;
+
+    // Sélection des sections
+    const productGridHalfSection = document.querySelector('.product-grid-half');
+    const popularProductSection = document.getElementById('popular-product');
+
+    // Vérification si les sections sont présentes dans le DOM
+    expect(productGridHalfSection).toBeTruthy();
+    expect(popularProductSection).toBeTruthy();
+
+    // Vérification du contenu de la section "product-grid-half"
+    const productGridBoxes = productGridHalfSection.querySelectorAll('.product-grid-box');
+    expect(productGridBoxes.length).toBe(3); // Vérifie s'il y a trois boîtes de produits
+    productGridBoxes.forEach(box => {
+        expect(box).toBeTruthy();
+        const productImage = box.querySelector('img');
+        expect(productImage).toBeTruthy();
+        expect(productImage.getAttribute('src')).toContain('image/');
+        const productText = box.querySelector('.product-grid-text');
+        expect(productText).toBeTruthy();
+        expect(productText.textContent).toContain('Skin Care Product');
+        expect(productText.querySelector('a[href=""]')).toBeTruthy();
+    });
+
+    // Vérification du contenu de la section "popular-product"
+    const popularBoxes = popularProductSection.querySelectorAll('.popular-box');
+    expect(popularBoxes.length).toBeGreaterThan(0); // Vérifie s'il y a au moins une boîte de produit populaire
+    popularBoxes.forEach(box => {
+        expect(box).toBeTruthy();
+        const productImage = box.querySelector('.popular-box-img img');
+        expect(productImage).toBeTruthy();
+        expect(productImage.getAttribute('src')).toContain('image/');
+        const productText = box.querySelector('.popular-box-text');
+        expect(productText).toBeTruthy();
+        expect(productText.textContent).toContain('dt');
+        expect(productText.querySelector('.p-price del')).toBeTruthy(); // Vérifie s'il y a un élément de prix barré
+    });
+});
+// Exemple de test pour vérifier la section "partner"
+test('Vérifie si la section "partner" contient des logos', () => {
+    // Simulation de la structure HTML de la section
+    document.body.innerHTML = `
+        <section id="partner">
+            <div class="partner-heading">
+                <h3>Our Trusted Partner</h3>
+            </div>
+            <div class="logo-container">
+                <img alt="logo" src="image/logo-1.jfif">
+                <img alt="logo" src="image/logo-2.jfif">
+                <img alt="logo" src="image/logo-3.jfif">
+                <img alt="logo" src="image/logo-4.jfif">
+            </div>
+        </section>
+    `;
+
+    // Sélection de la section "partner" et de ses logos
+    const partnerSection = document.getElementById('partner');
+    expect(partnerSection).toBeTruthy(); // Vérifie si la section existe
+
+    const logoContainer = partnerSection.querySelector('.logo-container');
+    expect(logoContainer).toBeTruthy(); // Vérifie si le conteneur de logos existe
+
+    const logos = logoContainer.querySelectorAll('img');
+    expect(logos.length).toBe(4); // Vérifie s'il y a quatre logos
+    logos.forEach(logo => {
+        expect(logo.getAttribute('alt')).toBe('logo'); // Vérifie si l'attribut alt est défini sur "logo"
+        expect(logo.getAttribute('src')).toContain('image/logo-'); // Vérifie si la source de l'image contient "image/logo-"
+    });
+});
+// Exemple de test pour vérifier la section "product-grid-2"
+test('Vérifie si la section "product-grid-2" contient des boîtes de produit', () => {
+    // Simulation de la structure HTML de la section
+    document.body.innerHTML = `
+        <section class="product-grid-2">
+            <div class="product-grid-box product-grid-box3">
+                <img src="image/h1.jpg" />
+                <div class="product-grid-text">
+                    <strong>Mackup Collection</strong>
+                    <span>Skin Care Product</span>
+                    <a href="">Shop Now</a>
+                </div>
+            </div>
+            <div class="product-grid-box product-grid-box2">
+                <img src="image/g2.jpg" />
+                <div class="product-grid-text">
+                    <strong>Discounted Product's</strong>
+                    <span>Skin Care Product</span>
+                    <a href="">Shop Now</a>
+                </div>
+            </div>
+        </section>
+    `;
+
+    // Sélection de la section "product-grid-2" et de ses boîtes de produit
+    const productGridSection = document.querySelector('.product-grid-2');
+    expect(productGridSection).toBeTruthy(); // Vérifie si la section existe
+
+    const productBoxes = productGridSection.querySelectorAll('.product-grid-box');
+    expect(productBoxes.length).toBe(2); // Vérifie s'il y a deux boîtes de produit
+
+    // Vérifie les caractéristiques de la première boîte de produit
+    const firstBox = productBoxes[0];
+    expect(firstBox.querySelector('img')).toBeTruthy(); // Vérifie si l'image est présente
+    expect(firstBox.querySelector('.product-grid-text strong').textContent).toBe('Mackup Collection'); // Vérifie le texte fort
+    expect(firstBox.querySelector('.product-grid-text span').textContent).toBe('Skin Care Product'); // Vérifie le texte de la description
+    expect(firstBox.querySelector('.product-grid-text a').getAttribute('href')).toBe(''); // Vérifie le lien href
+
+    // Vérifie les caractéristiques de la deuxième boîte de produit
+    const secondBox = productBoxes[1];
+    expect(secondBox.querySelector('img')).toBeTruthy(); // Vérifie si l'image est présente
+    expect(secondBox.querySelector('.product-grid-text strong').textContent).toBe("Discounted Product's"); // Vérifie le texte fort
+    expect(secondBox.querySelector('.product-grid-text span').textContent).toBe('Skin Care Product'); // Vérifie le texte de la description
+    expect(secondBox.querySelector('.product-grid-text a').getAttribute('href')).toBe(''); // Vérifie le lien href
+});
+// Exemple de test pour vérifier la structure et le contenu du pied de page (footer)
+test('Vérifie la structure et le contenu du pied de page (footer)', () => {
+    // Simulation de la structure HTML du pied de page
+    document.body.innerHTML = `
+        <footer>
+            <div class="footer-container">
+                <div class="footer-company-box">
+                    <a href="#" class="footer-logo">ROUA </a>
+                    <p>Beauty is our cotidien life  </p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-link-box">
+                    <strong>Main Link's</strong>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Portfolio</a></li>
+                    </ul>
+                </div>
+                <div class="footer-link-box">
+                    <strong>External Link's</strong>
+                    <ul>
+                        <li><a href="#">Our Product's</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Disclaimer</a></li>
+                        <li><a href="#">Trem's and Condition's</a></li>
+                    </ul>
+                </div>
+                <div class="footer-link-box">
+                    <strong>Our Product's</strong>
+                    <ul>
+                        <li><a href="#">Skin Care</a></li>
+                        <li><a href="#">Hair Care</a></li>
+                        <li><a href="#">Nail's Polish</a></li>
+                        <li><a href="#">Eye Liner's</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="footer-owner">Made By ROUA SAKLI </span>
+                <span class="copyright">&#169; Copyright 2024- ROUA SAKLI </span>
+            </div>
+        </footer>
+    `;
+
+    // Vérification de la présence des éléments principaux du pied de page
+    const footer = document.querySelector('footer');
+    expect(footer).toBeTruthy();
+
+    const footerContainers = footer.querySelectorAll('.footer-container');
+    expect(footerContainers.length).toBe(1);
+
+    const footerBottom = footer.querySelector('.footer-bottom');
+    expect(footerBottom).toBeTruthy();
+
+    // Vérification du contenu des éléments du pied de page
+    const footerLogo = footer.querySelector('.footer-logo');
+    expect(footerLogo.textContent).toBe('ROUA');
+
+    const footerCompanyText = footer.querySelector('.footer-company-box p');
+    expect(footerCompanyText.textContent).toBe('Beauty is our cotidien life');
+
+    const footerSocialIcons = footer.querySelectorAll('.footer-social a');
+    expect(footerSocialIcons.length).toBe(4); // Vérifie s'il y a quatre icônes sociales
+
+    const footerLinkBoxes = footer.querySelectorAll('.footer-link-box');
+    expect(footerLinkBoxes.length).toBe(3); // Vérifie s'il y a trois boîtes de liens
+
+    const footerOwnerText = footer.querySelector('.footer-owner');
+    expect(footerOwnerText.textContent).toBe('Made By ROUA SAKLI');
+
+    const footerCopyright = footer.querySelector('.copyright');
+    expect(footerCopyright.textContent).toBe('© Copyright 2024- ROUA SAKLI');
+});
+// Import de jQuery
+const $ = require('jquery');
+
+// Simulation de la structure HTML
+document.body.innerHTML = `
+    <div class="new-p-heading">
+        <ul>
+            <li class="filter-list active" data-filter="all">All</li>
+            <li class="filter-list" data-filter="skin">Skin</li>
+            <li class="filter-list" data-filter="makeup">Makeup</li>
+            <li class="filter-list" data-filter="hair">Hair</li>
+        </ul>
+    </div>
+    <div class="new-product-box-wrapper skin">
+        <div class="new-product-box">Skin Product 1</div>
+        <div class="new-product-box">Skin Product 2</div>
+    </div>
+    <div class="new-product-box-wrapper makeup">
+        <div class="new-product-box">Makeup Product 1</div>
+        <div class="new-product-box">Makeup Product 2</div>
+    </div>
+    <div class="new-product-box-wrapper hair">
+        <div class="new-product-box">Hair Product 1</div>
+        <div class="new-product-box">Hair Product 2</div>
+    </div>
+`;
+
+// Inclusion du script jQuery
+eval($('script').text());
+
+describe('jQuery functions', () => {
+    // Test pour vérifier si la classe "active" est ajoutée au clic sur un élément de la liste
+    test('should add "active" class to clicked list item', () => {
+        const listItem = $('.new-p-heading li').eq(1); // Sélectionne le deuxième élément de la liste
+        listItem.click();
+        expect(listItem.hasClass('active')).toBe(true);
+    });
+
+    // Test pour vérifier le filtrage des produits en fonction de la catégorie sélectionnée
+    test('should filter products based on selected category', () => {
+        const skinCategory = $('.new-p-heading li').eq(1); // Sélectionne la catégorie "Skin"
+        skinCategory.click();
+        expect($('.new-product-box-wrapper.skin').css('display')).not.toBe('none');
+        expect($('.new-product-box-wrapper.makeup').css('display')).toBe('none');
+        expect($('.new-product-box-wrapper.hair').css('display')).toBe('none');
+    });
+});
