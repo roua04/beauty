@@ -1,0 +1,78 @@
+const fs = require('fs');
+const path = require('path');
+const { JSDOM } = require('jsdom');
+querySelector: jest.fn(()=>({addEventListner:jest.fn()}));
+// Mock the fs module to return fake HTML content
+jest.mock('fs', () => ({
+  readFileSync: jest.fn().mockReturnValue('<!DOCTYPE html><html><head><title>BEAUTY BY ROUA</title></head><body><div class="logo"><img src="http://yourdomain.com/image/RS1.jpg"></div><div class="search-box"></div><footer></footer></body></html>')
+}));
+
+describe('HTML Page', () =>{
+  let dom;
+  let document;});
+/// importing the javascript code
+const jsCode =require('./js.js');
+describe('test html mocks',()=>{
+it ('should add event listener for logoclick',()=>{ 
+  // Before each test, load the fake HTML content and create a DOM
+  beforeEach(() => {
+    const html = fs.readFileSync(path.resolve(__dirname, './your_html_file.html'), 'utf-8');
+    dom = new JSDOM(html, { runScripts: 'dangerously' });
+    document = dom.window.document;
+  });
+// After each test, clean up the DOM
+afterEach(() => {
+  // Reset the document variable
+  global.document = null;
+  // Test to check the title of the page
+  test('should have correct title', () => {
+    expect(document.title).toBe('BEAUTY BY ROUA');
+  });
+
+  // Test to check the presence of the logo
+  test('should have logo', () => {
+    const logo = document.querySelector('.logo img');
+    expect(logo).toBeTruthy();
+    expect(logo.src).toBe('http://yourdomain.com/image/RS1.jpg');
+  });
+
+  // Test to check the presence of the search box
+  test('should have search box', () => {
+    const searchBox = document.querySelector('.search-box');
+    expect(searchBox).toBeTruthy();
+  });
+// Test to check the presence of the filter section
+test('Check presence of filter section', () => {
+  // Use querySelector to find the filter section element
+  const filterSection = document.querySelector('.filter');
+  // Expect the filter section to be truthy (i.e., present)
+  expect(filterSection).toBeTruthy();
+});
+// Test to check the presence of the product grid section
+test('Check presence of product grid section', () => {
+  // Use querySelector to find the product grid section element
+  const productGridSection = document.querySelector('.product-grid-half');
+  // Expect the product grid section to be truthy (i.e., present)
+  expect(productGridSection).toBeTruthy();
+});
+// Test to check the presence of the popular products section
+test('Check presence of popular products section', () => {
+  // Use querySelector to find the popular products section element
+  const popularProductsSection = document.querySelector('#popular-product');
+  // Expect the popular products section to be truthy (i.e., present)
+  expect(popularProductsSection).toBeTruthy();
+});
+// Test to check the presence of the product grid section
+test('Check presence of product grid section', () => {
+  // Use querySelector to find the product grid section element
+  const productGridSection = document.querySelector('.product-grid-2');
+  // Expect the product grid section to be truthy (i.e., present)
+  expect(productGridSection).toBeTruthy();
+});
+  // Test to check the presence of the footer
+  test('should have footer', () => {
+    const footer = document.querySelector('footer');
+    expect(footer).toBeTruthy();
+  });
+   
+
