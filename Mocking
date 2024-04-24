@@ -1,78 +1,161 @@
-const fs = require('fs');
-const path = require('path');
-const { JSDOM } = require('jsdom');
-querySelector: jest.fn(()=>({addEventListner:jest.fn()}));
-// Mock the fs module to return fake HTML content
-jest.mock('fs', () => ({
-  readFileSync: jest.fn().mockReturnValue('<!DOCTYPE html><html><head><title>BEAUTY BY ROUA</title></head><body><div class="logo"><img src="http://yourdomain.com/image/RS1.jpg"></div><div class="search-box"></div><footer></footer></body></html>')
+// Importing the module to be tested
+const { handleClick, handleFilter } = require('./your-module');
+// Mocking jQuery
+jest.mock('jquery', () => ({
+  on: jest.fn(),
+  ready: jest.fn(),
+  show: jest.fn(),
+  hide: jest.fn(),
+  filter: jest.fn(),
 }));
-
-describe('HTML Page', () =>{
-  let dom;
-  let document;});
-/// importing the javascript code
-const jsCode =require('./js.js');
-describe('test html mocks',()=>{
-it ('should add event listener for logoclick',()=>{ 
-  // Before each test, load the fake HTML content and create a DOM
-  beforeEach(() => {
-    const html = fs.readFileSync(path.resolve(__dirname, './your_html_file.html'), 'utf-8');
-    dom = new JSDOM(html, { runScripts: 'dangerously' });
-    document = dom.window.document;
+// Importing the mocked jQuery
+const $ = require('jquery');
+describe('handleClick', () => {
+  it('should add and remove the "active" class', () => {
+    // Mocking a DOM element
+    const element = document.createElement('li');
+    const addClassMock = jest.fn();
+    const removeClassMock = jest.fn();
+    element.classList = {
+      add: addClassMock,
+      remove: removeClassMock,
+    };
+    // Calling the function to test
+    handleClick.call(element);
+    // Assertions
+    expect(addClassMock).toHaveBeenCalledWith('active');
+    expect(removeClassMock).toHaveBeenCalledWith('active');
   });
-// After each test, clean up the DOM
-afterEach(() => {
-  // Reset the document variable
-  global.document = null;
-  // Test to check the title of the page
-  test('should have correct title', () => {
-    expect(document.title).toBe('BEAUTY BY ROUA');
-  });
-
-  // Test to check the presence of the logo
-  test('should have logo', () => {
-    const logo = document.querySelector('.logo img');
-    expect(logo).toBeTruthy();
-    expect(logo.src).toBe('http://yourdomain.com/image/RS1.jpg');
-  });
-
-  // Test to check the presence of the search box
-  test('should have search box', () => {
-    const searchBox = document.querySelector('.search-box');
-    expect(searchBox).toBeTruthy();
-  });
-// Test to check the presence of the filter section
-test('Check presence of filter section', () => {
-  // Use querySelector to find the filter section element
-  const filterSection = document.querySelector('.filter');
-  // Expect the filter section to be truthy (i.e., present)
-  expect(filterSection).toBeTruthy();
 });
-// Test to check the presence of the product grid section
-test('Check presence of product grid section', () => {
-  // Use querySelector to find the product grid section element
-  const productGridSection = document.querySelector('.product-grid-half');
-  // Expect the product grid section to be truthy (i.e., present)
-  expect(productGridSection).toBeTruthy();
-});
-// Test to check the presence of the popular products section
-test('Check presence of popular products section', () => {
-  // Use querySelector to find the popular products section element
-  const popularProductsSection = document.querySelector('#popular-product');
-  // Expect the popular products section to be truthy (i.e., present)
-  expect(popularProductsSection).toBeTruthy();
-});
-// Test to check the presence of the product grid section
-test('Check presence of product grid section', () => {
-  // Use querySelector to find the product grid section element
-  const productGridSection = document.querySelector('.product-grid-2');
-  // Expect the product grid section to be truthy (i.e., present)
-  expect(productGridSection).toBeTruthy();
-});
-  // Test to check the presence of the footer
-  test('should have footer', () => {
-    const footer = document.querySelector('footer');
-    expect(footer).toBeTruthy();
-  });
-   
+describe('handleFilter', () => {
+  it('should show all new product boxes if value is "all"', () => {
+    const event = { target: { getAttribute: () => 'all' } };
+    // Calling the function to test
+    handleFilter(event);
 
+    // Assertions
+    expect($.show).toHaveBeenCalledWith('1000');
+  });
+
+  it('should filter and show specific new product boxes if value is not "all"', () => {
+    const event = { target: { getAttribute: () => 'some-value' } };
+
+    // Calling the function to test
+    handleFilter(event);
+
+    // Assertions
+    expect($.not).toHaveBeenCalledWith('.some-value');
+    expect($.filter).toHaveBeenCalledWith('.some-value');
+    expect($.show).toHaveBeenCalledWith('1000');
+  });
+});
+
+// mock/return_value //
+// Importing the mocked jQuery
+const $ = require('jquery');
+
+describe('handleClick', () => {
+  it('should add and remove the "active" class', () => {
+    // Mocking a DOM element
+    const element = document.createElement('li');
+    const addClassMock = jest.fn();
+    const removeClassMock = jest.fn();
+    element.classList = {
+      add: addClassMock,
+      remove: removeClassMock,
+    };
+
+    // Calling the function to test
+    handleClick.call(element);
+
+    // Assertions
+    expect(addClassMock).toHaveBeenCalledWith('active');
+    expect(removeClassMock).toHaveBeenCalledWith('active');
+  });
+});
+
+describe('handleFilter', () => {
+  it('should show all new product boxes if value is "all"', () => {
+    const event = { target: { getAttribute: () => 'all' } };
+
+    // Mocking the $.show function and specifying return value
+    $.show.mockReturnValue('mocked return value');
+
+    // Calling the function to test
+    handleFilter(event);
+
+    // Assertions
+    expect($.show).toHaveBeenCalledWith('1000');
+    expect($.show).toHaveReturnedWith('mocked return value');
+  });
+
+  it('should filter and show specific new product boxes if value is not "all"', () => {
+    const event = { target: { getAttribute: () => 'some-value' } };
+
+    // Mocking the $.not and $.filter functions
+    $.not.mockReturnValueThis();
+    $.filter.mockReturnValue('mocked return value');
+
+    // Calling the function to test
+    handleFilter(event);
+
+    // Assertions
+    expect($.not).toHaveBeenCalledWith('.some-value');
+    expect($.filter).toHaveBeenCalledWith('.some-value');
+    expect($.show).toHaveBeenCalledWith('1000');
+  });
+});
+//mock /side_effect //
+// Importing the mocked jQuery
+const $ = require('jquery');
+
+describe('handleClick', () => {
+  it('should add and remove the "active" class', () => {
+    // Mocking a DOM element
+    const element = document.createElement('li');
+    const addClassMock = jest.fn();
+    const removeClassMock = jest.fn();
+    element.classList = {
+      add: addClassMock,
+      remove: removeClassMock,
+    };
+
+    // Calling the function to test
+    handleClick.call(element);
+
+    // Assertions
+    expect(addClassMock).toHaveBeenCalledWith('active');
+    expect(removeClassMock).toHaveBeenCalledWith('active');
+  });
+});
+
+describe('handleFilter', () => {
+  it('should show all new product boxes if value is "all"', () => {
+    const event = { target: { getAttribute: () => 'all' } };
+
+    // Mocking the $.show function with side effect
+    $.show.mockImplementation(() => console.log('Mocked $.show was called'));
+
+    // Calling the function to test
+    handleFilter(event);
+
+    // Assertions
+    expect($.show).toHaveBeenCalledWith('1000');
+  });
+
+  it('should filter and show specific new product boxes if value is not "all"', () => {
+    const event = { target: { getAttribute: () => 'some-value' } };
+
+    // Mocking the $.not and $.filter functions with side effects
+    $.not.mockImplementation(() => console.log('Mocked $.not was called'));
+    $.filter.mockImplementation(() => console.log('Mocked $.filter was called'));
+
+    // Calling the function to test
+    handleFilter(event);
+
+    // Assertions
+    expect($.not).toHaveBeenCalledWith('.some-value');
+    expect($.filter).toHaveBeenCalledWith('.some-value');
+    expect($.show).toHaveBeenCalledWith('1000');
+  });
+});
