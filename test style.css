@@ -51,13 +51,10 @@ describe('Styles CSS', () => {
       gridGap: '40px',
     });
   });
-
   test('les styles pour .product-grid-3 sont corrects', () => {
     // Vérifiez que les styles CSS sont corrects pour .product-grid-3
     expect(styles.productGrid3).toEqual({
       gridTemplateColumns: '1fr 1fr',
     });
   });
-
-  // Ajoutez d'autres tests pour chaque sélecteur CSS que vous souhaitez tester
 });
